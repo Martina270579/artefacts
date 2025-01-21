@@ -46,7 +46,7 @@ jobs:
               uses: actions/downloads-artifact@v4
               with:
                 name: build
-                path: ./download-build
+                path: ./downloaded-build
           
             - name: Validate build output
               run: 
