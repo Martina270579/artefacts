@@ -1,2 +1,41 @@
 name: react-build
 
+on:
+  push:
+    branches: 
+        - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # build job soll den build ordner als artefact hochladen
+
+            # schritt 1: code auschecken
+            - name: Checkt out code
+              uses: actions/checkout@v4
+
+            # Schritt2: Node.js installieren
+            # wir probieren aus diesen Schritt weg zu lassen
+
+            # Schritt 3:Abhängigkeiten installieren
+            - name: Install dependencies
+              run: npm install
+
+            # Schritt 4: Projekt-build bauen
+            - name: Build project
+              run: npm run build
+
+            # Schritt 5: Build Ergebnisse hochladen
+            - name: upload build artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: build
+                path: build/
+    
+    # test:
+    #     runs-on: ubuntu-latest
+    #     needs:
+    #     steps:
+    #       # test job soll den build ordner als artefact herunterladen  
+
