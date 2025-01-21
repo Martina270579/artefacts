@@ -17,6 +17,10 @@ jobs:
 
             # Schritt2: Node.js installieren
             # wir probieren aus diesen Schritt weg zu lassen
+            - name: Set upNode.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: 22
 
             # Schritt 3:Abhängigkeiten installieren
             - name: Install dependencies
@@ -33,9 +37,22 @@ jobs:
                 name: build
                 path: build/
     
-    # test:
-    #     runs-on: ubuntu-latest
-    #     needs:
-    #     steps:
-    #       # test job soll den build ordner als artefact herunterladen  
-
+    test:
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+          # test job soll den build ordner als artefact herunterladen 
+            - name: Download build artifact
+              uses: actions/downloads-artifact@v4
+              with:
+                name: build
+                path: ./download-build
+          
+            - name: Validate build output
+              run: 
+                if [ ! -f ./downloaded-build/index.html ]; 
+                then 
+                  echo "index.html not found in build output!"
+                  exit 1
+                fi
+                echo "Build contains index.html - validation passed."
