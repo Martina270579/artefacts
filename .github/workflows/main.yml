@@ -43,13 +43,13 @@ jobs:
         steps:
           # test job soll den build ordner als artefact herunterladen 
             - name: Download build artifact
-              uses: actions/downloads-artifact@v4
+              uses: actions/download-artifact@v4
               with:
                 name: build
                 path: ./downloaded-build
           
             - name: Validate build output
-              run: 
+              run: |
                 if [ ! -f ./downloaded-build/index.html ]; 
                 then 
                   echo "index.html not found in build output!"
